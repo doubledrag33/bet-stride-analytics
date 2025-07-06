@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Save } from 'lucide-react';
+import { PlusCircle, Save, Clock } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const BetEntry = () => {
@@ -19,17 +19,25 @@ const BetEntry = () => {
     bookmaker: '',
     tipster: '',
     status: '',
-    notes: ''
+    notes: '',
+    datetime: new Date().toISOString().slice(0, 16) // Formato YYYY-MM-DDTHH:MM
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Scommessa salvata!",
-      description: "La tua scommessa è stata aggiunta con successo.",
+    
+    // Log della scommessa con orario
+    console.log('Nuova scommessa salvata:', {
+      ...formData,
+      timestamp: new Date(formData.datetime).toISOString()
     });
     
-    // Reset form
+    toast({
+      title: "Scommessa salvata!",
+      description: `Scommessa registrata alle ${new Date(formData.datetime).toLocaleString('it-IT')}`,
+    });
+    
+    // Reset form with new current time
     setFormData({
       sport: '',
       event: '',
@@ -39,7 +47,8 @@ const BetEntry = () => {
       bookmaker: '',
       tipster: '',
       status: '',
-      notes: ''
+      notes: '',
+      datetime: new Date().toISOString().slice(0, 16)
     });
   };
 
@@ -65,6 +74,22 @@ const BetEntry = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Date and Time */}
+            <div className="space-y-2">
+              <Label htmlFor="datetime" className="flex items-center space-x-2">
+                <Clock className="w-4 h-4 text-blue-600" />
+                <span>Data e Ora</span>
+              </Label>
+              <Input
+                id="datetime"
+                type="datetime-local"
+                value={formData.datetime}
+                onChange={(e) => handleInputChange('datetime', e.target.value)}
+                className="bg-white/50"
+                required
+              />
+            </div>
+
             {/* Sport and Event */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -109,6 +134,7 @@ const BetEntry = () => {
                 value={formData.event}
                 onChange={(e) => handleInputChange('event', e.target.value)}
                 className="bg-white/50"
+                required
               />
             </div>
 
@@ -121,6 +147,7 @@ const BetEntry = () => {
                 value={formData.bet}
                 onChange={(e) => handleInputChange('bet', e.target.value)}
                 className="bg-white/50"
+                required
               />
             </div>
 
@@ -136,6 +163,7 @@ const BetEntry = () => {
                   value={formData.odds}
                   onChange={(e) => handleInputChange('odds', e.target.value)}
                   className="bg-white/50"
+                  required
                 />
               </div>
               
@@ -149,6 +177,7 @@ const BetEntry = () => {
                   value={formData.stake}
                   onChange={(e) => handleInputChange('stake', e.target.value)}
                   className="bg-white/50"
+                  required
                 />
               </div>
             </div>
