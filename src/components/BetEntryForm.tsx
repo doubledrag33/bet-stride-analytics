@@ -1,0 +1,230 @@
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { PlusCircle, Save, Clock } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+
+const BetEntryForm = () => {
+  const [formData, setFormData] = useState({
+    sport: '',
+    event: '',
+    bet: '',
+    odds: '',
+    stake: '',
+    bookmaker: '',
+    tipster: '',
+    status: '',
+    notes: '',
+    datetime: new Date().toISOString().slice(0, 16)
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    console.log('Nuova scommessa salvata:', {
+      ...formData,
+      timestamp: new Date(formData.datetime).toISOString()
+    });
+    
+    toast({
+      title: "Scommessa salvata!",
+      description: `Scommessa registrata alle ${new Date(formData.datetime).toLocaleString('it-IT')}`,
+    });
+    
+    setFormData({
+      sport: '',
+      event: '',
+      bet: '',
+      odds: '',
+      stake: '',
+      bookmaker: '',
+      tipster: '',
+      status: '',
+      notes: '',
+      datetime: new Date().toISOString().slice(0, 16)
+    });
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <Card className="border-0 shadow-lg bg-white/60 backdrop-blur-sm">
+      <CardHeader>
+        <CardTitle className="flex items-center space-x-2">
+          <PlusCircle className="w-5 h-5 text-blue-600" />
+          <span>Dettagli Scommessa</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Date and Time */}
+          <div className="space-y-2">
+            <Label htmlFor="datetime" className="flex items-center space-x-2">
+              <Clock className="w-4 h-4 text-blue-600" />
+              <span>Data e Ora</span>
+            </Label>
+            <Input
+              id="datetime"
+              type="datetime-local"
+              value={formData.datetime}
+              onChange={(e) => handleInputChange('datetime', e.target.value)}
+              className="bg-white/50"
+              required
+            />
+          </div>
+
+          {/* Sport and Bookmaker */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="sport">Sport</Label>
+              <Select value={formData.sport} onValueChange={(value) => handleInputChange('sport', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona sport" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="calcio">Calcio</SelectItem>
+                  <SelectItem value="tennis">Tennis</SelectItem>
+                  <SelectItem value="basket">Basket</SelectItem>
+                  <SelectItem value="volley">Volley</SelectItem>
+                  <SelectItem value="altro">Altro</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="bookmaker">Bookmaker</Label>
+              <Select value={formData.bookmaker} onValueChange={(value) => handleInputChange('bookmaker', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona bookmaker" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="bet365">Bet365</SelectItem>
+                  <SelectItem value="snai">SNAI</SelectItem>
+                  <SelectItem value="sisal">Sisal</SelectItem>
+                  <SelectItem value="betfair">Betfair</SelectItem>
+                  <SelectItem value="altro">Altro</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Event */}
+          <div className="space-y-2">
+            <Label htmlFor="event">Evento</Label>
+            <Input
+              id="event"
+              placeholder="es. Milan vs Inter"
+              value={formData.event}
+              onChange={(e) => handleInputChange('event', e.target.value)}
+              className="bg-white/50"
+              required
+            />
+          </div>
+
+          {/* Bet Details */}
+          <div className="space-y-2">
+            <Label htmlFor="bet">Tipo di Scommessa</Label>
+            <Input
+              id="bet"
+              placeholder="es. Over 2.5, 1X, BTTS"
+              value={formData.bet}
+              onChange={(e) => handleInputChange('bet', e.target.value)}
+              className="bg-white/50"
+              required
+            />
+          </div>
+
+          {/* Odds and Stake */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="odds">Quota</Label>
+              <Input
+                id="odds"
+                type="number"
+                step="0.01"
+                placeholder="es. 1.85"
+                value={formData.odds}
+                onChange={(e) => handleInputChange('odds', e.target.value)}
+                className="bg-white/50"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="stake">Stake (€)</Label>
+              <Input
+                id="stake"
+                type="number"
+                step="0.01"
+                placeholder="es. 50.00"
+                value={formData.stake}
+                onChange={(e) => handleInputChange('stake', e.target.value)}
+                className="bg-white/50"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Tipster and Status */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="tipster">Tipster</Label>
+              <Input
+                id="tipster"
+                placeholder="es. Nome tipster o 'Personale'"
+                value={formData.tipster}
+                onChange={(e) => handleInputChange('tipster', e.target.value)}
+                className="bg-white/50"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="status">Stato</Label>
+              <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleziona stato" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="pending">In corso</SelectItem>
+                  <SelectItem value="won">Vinta</SelectItem>
+                  <SelectItem value="lost">Persa</SelectItem>
+                  <SelectItem value="void">Annullata</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div className="space-y-2">
+            <Label htmlFor="notes">Note (opzionale)</Label>
+            <Textarea
+              id="notes"
+              placeholder="Aggiungi note o analisi..."
+              value={formData.notes}
+              onChange={(e) => handleInputChange('notes', e.target.value)}
+              className="bg-white/50 min-h-[100px]"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <Button 
+            type="submit" 
+            className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg"
+          >
+            <Save className="w-4 h-4 mr-2" />
+            Salva Scommessa
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default BetEntryForm;
