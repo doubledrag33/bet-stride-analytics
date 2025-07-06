@@ -17,6 +17,7 @@ const BetEntry = () => {
     odds: '',
     stake: '',
     bookmaker: '',
+    tipster: '',
     status: '',
     notes: ''
   });
@@ -36,6 +37,7 @@ const BetEntry = () => {
       odds: '',
       stake: '',
       bookmaker: '',
+      tipster: '',
       status: '',
       notes: ''
     });
@@ -151,20 +153,33 @@ const BetEntry = () => {
               </div>
             </div>
 
-            {/* Status */}
-            <div className="space-y-2">
-              <Label htmlFor="status">Stato</Label>
-              <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleziona stato" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectItem value="pending">In corso</SelectItem>
-                  <SelectItem value="won">Vinta</SelectItem>
-                  <SelectItem value="lost">Persa</SelectItem>
-                  <SelectItem value="void">Annullata</SelectItem>
-                </SelectContent>
-              </Select>
+            {/* Tipster and Status */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="tipster">Tipster</Label>
+                <Input
+                  id="tipster"
+                  placeholder="es. Nome tipster o 'Personale'"
+                  value={formData.tipster}
+                  onChange={(e) => handleInputChange('tipster', e.target.value)}
+                  className="bg-white/50"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="status">Stato</Label>
+                <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleziona stato" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="pending">In corso</SelectItem>
+                    <SelectItem value="won">Vinta</SelectItem>
+                    <SelectItem value="lost">Persa</SelectItem>
+                    <SelectItem value="void">Annullata</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             {/* Notes */}
