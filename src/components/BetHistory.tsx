@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Filter, TrendingUp, TrendingDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import BulkBetActions from '@/components/BulkBetActions';
 
 // Mock data delle scommesse
 const mockBets = [
@@ -114,6 +114,9 @@ const BetHistory = () => {
         <h1 className="text-3xl font-bold text-slate-800">Storico Scommesse</h1>
         <p className="text-slate-600">Visualizza e analizza tutte le tue scommesse</p>
       </div>
+
+      {/* Bulk Actions */}
+      <BulkBetActions />
 
       {/* Filtri */}
       <Card className="border-0 shadow-lg bg-white/60 backdrop-blur-sm">
