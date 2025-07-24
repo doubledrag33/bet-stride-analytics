@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bankrolls: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          share_token: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          share_token?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          share_token?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bets: {
+        Row: {
+          adm_ref: string | null
+          bankroll_id: string
+          bookmaker: string | null
+          confidence_score: number | null
+          created_at: string
+          event: string | null
+          id: string
+          image_url: string
+          odds: number | null
+          placed_at: string
+          result_at: string | null
+          sport: string | null
+          stake: number | null
+          status: Database["public"]["Enums"]["bet_status"] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          adm_ref?: string | null
+          bankroll_id: string
+          bookmaker?: string | null
+          confidence_score?: number | null
+          created_at?: string
+          event?: string | null
+          id?: string
+          image_url: string
+          odds?: number | null
+          placed_at?: string
+          result_at?: string | null
+          sport?: string | null
+          stake?: number | null
+          status?: Database["public"]["Enums"]["bet_status"] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          adm_ref?: string | null
+          bankroll_id?: string
+          bookmaker?: string | null
+          confidence_score?: number | null
+          created_at?: string
+          event?: string | null
+          id?: string
+          image_url?: string
+          odds?: number | null
+          placed_at?: string
+          result_at?: string | null
+          sport?: string | null
+          stake?: number | null
+          status?: Database["public"]["Enums"]["bet_status"] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bets_bankroll_id_fkey"
+            columns: ["bankroll_id"]
+            isOneToOne: false
+            referencedRelation: "bankrolls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          invited_by: string | null
+          referral_code: string
+          stripe_customer_id: string | null
+          subscription_active: boolean | null
+          subscription_end: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          invited_by?: string | null
+          referral_code?: string
+          stripe_customer_id?: string | null
+          subscription_active?: boolean | null
+          subscription_end?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          invited_by?: string | null
+          referral_code?: string
+          stripe_customer_id?: string | null
+          subscription_active?: boolean | null
+          subscription_end?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +150,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      bet_status: "PENDING" | "WON" | "LOST"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +277,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      bet_status: ["PENDING", "WON", "LOST"],
+    },
   },
 } as const

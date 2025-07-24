@@ -1,114 +1,125 @@
-
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { 
-  BarChart3, 
-  PlusCircle, 
   TrendingUp, 
+  Home, 
+  PlusCircle, 
+  History, 
+  BarChart3, 
   User, 
   Menu,
-  X,
-  Target
+  LogOut,
+  Users
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navItems = [
-    { to: '/', icon: BarChart3, label: 'Dashboard' },
-    { to: '/bet-entry', icon: PlusCircle, label: 'Nuova Scommessa' },
-    { to: '/analytics', icon: TrendingUp, label: 'Analisi' },
-    { to: '/profile', icon: User, label: 'Profilo' },
+    { path: '/', icon: Home, label: 'Dashboard' },
+    { path: '/bets/new', icon: PlusCircle, label: 'Nuova Scommessa' },
+    { path: '/bets', icon: History, label: 'Cronologia' },
+    { path: '/analytics', icon: BarChart3, label: 'Analytics' },
+    { path: '/referral', icon: Users, label: 'Referral' },
+    { path: '/profile', icon: User, label: 'Profilo' },
   ];
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-700 to-blue-500">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <Target className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                BetTracker Pro
-              </h1>
-            </div>
+      <header className="bg-white/10 backdrop-blur-sm border-b border-white/20">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <TrendingUp className="h-8 w-8 text-white" />
+            <span className="text-xl font-bold text-white">BetAnalytics</span>
+          </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-1">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
-                      isActive
-                        ? "bg-blue-100 text-blue-700 shadow-sm"
-                        : "text-slate-600 hover:text-blue-600 hover:bg-slate-100"
-                    )
-                  }
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </NavLink>
-              ))}
-            </nav>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-white/20 text-white'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  }`
+                }
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
 
-            {/* Mobile menu button */}
+          <div className="flex items-center space-x-4">
+            <span className="hidden sm:block text-white/80 text-sm">
+              {user?.email}
+            </span>
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={handleSignOut}
+              className="text-white/80 hover:text-white hover:bg-white/10"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <LogOut className="h-4 w-4" />
             </Button>
+
+            {/* Mobile menu trigger */}
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="md:hidden text-white/80 hover:text-white hover:bg-white/10"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64 bg-blue-950/95 backdrop-blur-sm border-blue-800">
+                <nav className="flex flex-col space-y-2 mt-8">
+                  {navItems.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-blue-600/50 text-white'
+                            : 'text-blue-200 hover:bg-blue-800/50 hover:text-white'
+                        }`
+                      }
+                    >
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </NavLink>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-200">
-            <nav className="px-4 py-3 space-y-1">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-                      isActive
-                        ? "bg-blue-100 text-blue-700"
-                        : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
-                    )
-                  }
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </NavLink>
-              ))}
-            </nav>
-          </div>
-        )}
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
+      <main className="container mx-auto px-4 py-8">
+        {children || <Outlet />}
       </main>
     </div>
   );
 };
-
-export default Layout;
