@@ -14,7 +14,7 @@ const Index = () => {
       {/* Welcome Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-white">
-          Benvenuto in BetAnalytics
+          Benvenuto in Smart Stake
         </h1>
         <p className="text-xl text-blue-200 max-w-2xl mx-auto">
           Trasforma le tue scommesse in dati strutturati e ottimizza le tue strategie
@@ -98,7 +98,7 @@ const Index = () => {
               <span>Tutorial</span>
             </CardTitle>
             <CardDescription>
-              Scopri come ottenere il massimo da BetAnalytics
+              Scopri come ottenere il massimo da Smart Stake
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -43,7 +43,7 @@ export const Layout = ({ children }: LayoutProps) => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <TrendingUp className="h-8 w-8 text-white" />
-            <span className="text-xl font-bold text-white">BetAnalytics</span>
+            <span className="text-xl font-bold text-white">Smart Stake</span>
           </div>
 
           {/* Desktop Navigation */}

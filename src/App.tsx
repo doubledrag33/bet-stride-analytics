@@ -8,6 +8,8 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { AuthForm } from "@/components/AuthForm";
 import { Layout } from "@/components/Layout";
 import Index from "@/pages/Index";
+import BetEntry from "@/pages/BetEntry";
+import Referral from "@/pages/Referral";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,8 @@ const ProtectedRoutes = () => {
     <Layout>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/bets/new" element={<BetEntry />} />
+        <Route path="/referral" element={<Referral />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

@@ -62,7 +62,7 @@ export const AuthForm = () => {
           <div className="flex items-center justify-center mb-4">
             <TrendingUp className="h-12 w-12 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">BetAnalytics</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Smart Stake</h1>
           <p className="text-blue-200">Trasforma le tue scommesse in dati</p>
         </div>
 
