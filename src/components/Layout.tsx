@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { 
-  TrendingUp, 
+  Target, 
   Home, 
   PlusCircle, 
   History, 
@@ -42,7 +42,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <header className="bg-white/10 backdrop-blur-sm border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <TrendingUp className="h-8 w-8 text-white" />
+            <Target className="h-8 w-8 text-white" />
             <span className="text-xl font-bold text-white">Smart Stake</span>
           </div>
 

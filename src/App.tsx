@@ -9,6 +9,9 @@ import { AuthForm } from "@/components/AuthForm";
 import { Layout } from "@/components/Layout";
 import Index from "@/pages/Index";
 import BetEntry from "@/pages/BetEntry";
+import BetHistory from "@/pages/BetHistory";
+import Analytics from "@/pages/Analytics";
+import Profile from "@/pages/Profile";
 import Referral from "@/pages/Referral";
 import NotFound from "@/pages/NotFound";
 
@@ -34,6 +37,9 @@ const ProtectedRoutes = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/bets/new" element={<BetEntry />} />
+        <Route path="/bets" element={<BetHistory />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/referral" element={<Referral />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
