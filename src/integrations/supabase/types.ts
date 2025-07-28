@@ -57,6 +57,7 @@ export type Database = {
           sport: string | null
           stake: number | null
           status: Database["public"]["Enums"]["bet_status"] | null
+          tipster: string | null
           updated_at: string
           user_id: string
         }
@@ -75,6 +76,7 @@ export type Database = {
           sport?: string | null
           stake?: number | null
           status?: Database["public"]["Enums"]["bet_status"] | null
+          tipster?: string | null
           updated_at?: string
           user_id: string
         }
@@ -93,6 +95,7 @@ export type Database = {
           sport?: string | null
           stake?: number | null
           status?: Database["public"]["Enums"]["bet_status"] | null
+          tipster?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -108,10 +111,15 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string
+          dark_mode: boolean | null
           email: string
           id: string
           invited_by: string | null
+          onboarding_completed: boolean | null
+          preferred_lang: string | null
+          profit_target: number | null
           referral_code: string
           stripe_customer_id: string | null
           subscription_active: boolean | null
@@ -119,10 +127,15 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string
+          dark_mode?: boolean | null
           email: string
           id: string
           invited_by?: string | null
+          onboarding_completed?: boolean | null
+          preferred_lang?: string | null
+          profit_target?: number | null
           referral_code?: string
           stripe_customer_id?: string | null
           subscription_active?: boolean | null
@@ -130,10 +143,15 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
+          dark_mode?: boolean | null
           email?: string
           id?: string
           invited_by?: string | null
+          onboarding_completed?: boolean | null
+          preferred_lang?: string | null
+          profit_target?: number | null
           referral_code?: string
           stripe_customer_id?: string | null
           subscription_active?: boolean | null
@@ -147,7 +165,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_analytics: {
+        Args: { p_user_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       bet_status: "PENDING" | "WON" | "LOST"

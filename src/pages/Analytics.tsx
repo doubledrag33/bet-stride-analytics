@@ -1,7 +1,7 @@
-import Analytics from '@/components/Analytics';
+import RealAnalytics from '@/components/RealAnalytics';
 
 const AnalyticsPage = () => {
-  return <Analytics />;
+  return <RealAnalytics />;
 };
 
 export default AnalyticsPage;

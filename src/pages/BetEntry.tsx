@@ -103,16 +103,33 @@ const BetEntry = () => {
     if (!user || !imageUrl) return;
 
     try {
+      // Get user's first bankroll
+      const { data: bankrolls } = await supabase
+        .from('bankrolls')
+        .select('id')
+        .eq('user_id', user.id)
+        .limit(1);
+
+      if (!bankrolls || bankrolls.length === 0) {
+        toast({
+          title: "Errore",
+          description: "Nessun bankroll trovato. Completa prima l'onboarding.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const { error } = await supabase.from('bets').insert({
         user_id: user.id,
-        bankroll_id: extractedData?.bankroll_id || null,
+        bankroll_id: bankrolls[0].id,
         image_url: imageUrl,
-        sport: extractedData?.sport || '',
-        event: extractedData?.event || '',
-        bookmaker: extractedData?.bookmaker || '',
+        sport: extractedData?.sport || null,
+        event: extractedData?.event || null,
+        bookmaker: extractedData?.bookmaker || null,
         odds: extractedData?.odds || null,
         stake: extractedData?.stake || null,
-        adm_ref: extractedData?.adm_ref || '',
+        adm_ref: extractedData?.adm_ref || null,
+        tipster: extractedData?.tipster || null,
         confidence_score: extractedData?.confidence_score || 50,
         status: 'PENDING'
       });
@@ -251,6 +268,15 @@ const BetEntry = () => {
                   step="0.01"
                   value={extractedData.stake || ''}
                   onChange={(e) => setExtractedData({...extractedData, stake: parseFloat(e.target.value)})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tipster">Tipster (opzionale)</Label>
+                <Input
+                  id="tipster"
+                  value={extractedData.tipster || ''}
+                  onChange={(e) => setExtractedData({...extractedData, tipster: e.target.value})}
+                  placeholder="Nome del tipster"
                 />
               </div>
             </div>

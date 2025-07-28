@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { AuthForm } from "@/components/AuthForm";
 import { Layout } from "@/components/Layout";
+import OnboardingWizard from "@/components/OnboardingWizard";
+import { useProfile } from "@/hooks/useProfile";
 import Index from "@/pages/Index";
 import BetEntry from "@/pages/BetEntry";
 import BetHistory from "@/pages/BetHistory";
@@ -19,8 +21,9 @@ const queryClient = new QueryClient();
 
 const ProtectedRoutes = () => {
   const { user, loading } = useAuth();
+  const { profile, loading: profileLoading } = useProfile();
 
-  if (loading) {
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-700 to-blue-500 flex items-center justify-center">
         <div className="text-white text-lg">Caricamento...</div>
@@ -30,6 +33,11 @@ const ProtectedRoutes = () => {
 
   if (!user) {
     return <AuthForm />;
+  }
+
+  // Check if onboarding is completed
+  if (profile && !profile.onboarding_completed) {
+    return <OnboardingWizard onComplete={() => window.location.reload()} />;
   }
 
   return (

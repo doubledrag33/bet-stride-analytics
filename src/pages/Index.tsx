@@ -1,9 +1,11 @@
 
+import React from 'react';
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, TrendingUp, DollarSign, Target, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import CheckPendingButton from '@/components/CheckPendingButton';
 
 const Index = () => {
   const { user } = useAuth();
@@ -113,6 +115,9 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Check Pending Button */}
+      <CheckPendingButton />
 
       {/* Recent Activity Placeholder */}
       <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">

@@ -1,7 +1,7 @@
-import BetHistory from '@/components/BetHistory';
+import RealBetHistory from '@/components/RealBetHistory';
 
 const BetHistoryPage = () => {
-  return <BetHistory />;
+  return <RealBetHistory />;
 };
 
 export default BetHistoryPage;
