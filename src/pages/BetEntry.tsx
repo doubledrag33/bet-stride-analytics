@@ -14,7 +14,14 @@ const BetEntry = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [extractedData, setExtractedData] = useState<any>(null);
+  const [extractedData, setExtractedData] = useState<any>({
+    sport: '',
+    event: '',
+    bookmaker: '',
+    odds: '',
+    stake: '',
+    tipster: ''
+  });
   const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
@@ -74,10 +81,10 @@ const BetEntry = () => {
         description: "I dati della scommessa sono stati estratti automaticamente",
       });
     } catch (error: any) {
+      console.log('AI processing failed:', error);
       toast({
-        title: "Errore AI",
-        description: "Errore nell'estrazione dei dati. Inserisci manualmente.",
-        variant: "destructive",
+        title: "Inserimento manuale",
+        description: "Compila i campi manualmente per salvare la scommessa.",
       });
     } finally {
       setIsProcessing(false);
@@ -144,7 +151,14 @@ const BetEntry = () => {
       // Reset form
       setImageFile(null);
       setImageUrl('');
-      setExtractedData(null);
+      setExtractedData({
+        sport: '',
+        event: '',
+        bookmaker: '',
+        odds: '',
+        stake: '',
+        tipster: ''
+      });
     } catch (error: any) {
       toast({
         title: "Errore",
@@ -223,13 +237,13 @@ const BetEntry = () => {
         </Card>
       )}
 
-      {/* Extracted Data */}
-      {extractedData && (
+      {/* Manual Entry Form */}
+      {imageUrl && (
         <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
           <CardHeader>
-            <CardTitle>Dati Estratti</CardTitle>
+            <CardTitle>Dettagli Scommessa</CardTitle>
             <CardDescription>
-              Verifica e modifica se necessario
+              Inserisci i dettagli della scommessa
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
