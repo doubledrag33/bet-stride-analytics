@@ -73,7 +73,7 @@ export const useProfile = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, [user]);
+  }, [user?.id]);
 
   return {
     profile,
